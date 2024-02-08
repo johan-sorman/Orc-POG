@@ -47,6 +47,11 @@ async def on_message(message):
         if emoji:
             await message.add_reaction(emoji)
 
+        send_random_reaction = random.random() < HITRATE
+        if send_random_reaction:
+            random_emoji = random.choice(client.emojis)
+            await message.add_reaction(random_emoji)
+
     await client.process_commands(message)
 
 
