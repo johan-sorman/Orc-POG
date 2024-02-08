@@ -13,7 +13,7 @@ load_dotenv()
 TOKEN = os.getenv('TOKEN_ORC_POG')
 CUSTOM_EMOJI_NAME = 'orc_pog' # Change this to what the emote name is :name_here: (without the : :)
 CUSTOM_EMOJI_ID = 1204836858828423268 # Change this to your own custom ID
-HITRATE = 0.15 # 15% chance
+HITRATE = 0.25 # 15% chance
 
 intents = discord.Intents.default()
 intents.messages = True
@@ -40,20 +40,15 @@ async def on_message(message):
 
     print(f"Received message in channel {message.channel.name} ({message.channel.id}): {message.content}")
 
-    if "pog" in message.content.lower():
+    if "pog" in message.content.lower() or "poggers" in message.content.lower():
         await message.channel.send(f"{message.author.mention} Poggers! <:{CUSTOM_EMOJI_NAME}:{CUSTOM_EMOJI_ID}>", reference=message)
     else:
-        emoji = discord.utils.get(client.emojis, id=CUSTOM_EMOJI_ID)
-        if emoji:
-            await message.add_reaction(emoji)
-
+        # Determine whether to add a random reaction to any message
         send_random_reaction = random.random() < HITRATE
         if send_random_reaction:
             random_emoji = random.choice(client.emojis)
             await message.add_reaction(random_emoji)
 
     await client.process_commands(message)
-
-
 
 client.run(TOKEN)
