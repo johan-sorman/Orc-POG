@@ -43,12 +43,12 @@ async def on_message(message):
     if "pog" in message.content.lower():
         await message.channel.send(f"{message.author.mention} Poggers! <:{CUSTOM_EMOJI_NAME}:{CUSTOM_EMOJI_ID}>", reference=message)
     else:
-        send_random_reaction = random.random() < HITRATE
-        if send_random_reaction:
-            random_emoji = random.choice(client.emojis)
-            await message.add_reaction(random_emoji)
+        emoji = discord.utils.get(client.emojis, id=CUSTOM_EMOJI_ID)
+        if emoji:
+            await message.add_reaction(emoji)
 
     await client.process_commands(message)
+
 
 
 client.run(TOKEN)
